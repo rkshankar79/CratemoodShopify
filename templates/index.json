@@ -12,22 +12,43 @@
     "hero": {
       "type": "cratemood-hero",
       "settings": {
+        "image": "shopify://shop_images/hero2_c33360d6-5405-4fbb-adf0-bf0f5889dd93.png",
         "fallback_asset": "cratemood-real-lifestyle-moose.jpg",
-        "eyebrow": "MOOD TILES FOR PETS",
-        "heading": "GIVE YOUR PET A MOOD.",
+        "eyebrow": "",
+        "heading": "",
         "heading_size": "hxl",
-        "subheading": "Personalized pet signs with interchangeable mood tiles.",
-        "button_label": "Shop CrateMood",
+        "subheading": "",
+        "button_label": "",
         "button_link": "shopify://collections/all",
         "button_label_2": "",
         "button_link_2": "",
         "content_alignment": "center",
-        "overlay_opacity": 45,
-        "mobile_height": 480,
-        "desktop_height": 660,
+        "overlay_opacity": 0,
+        "mobile_height": 300,
+        "desktop_height": 600,
         "color_scheme": "scheme-3",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 100,
+        "padding_bottom": 4
+      }
+    },
+    "mood_showcase": {
+      "type": "mood-tile-showcase",
+      "settings": {
+        "eyebrow": "INTERCHANGEABLE MOOD TILES",
+        "heading": "Swap the mood. Not the sign.",
+        "heading_size": "h1",
+        "body": "<p>One base, endless moods. Snap in a new white tile whenever the vibe changes.</p>",
+        "moods": "GOOD BOY\nGOOD GIRL\nNAUGHTY\nALWAYS HUNGRY\nTREAT PLEASE\nLET ME OUT\nPLAY WITH ME\nSLEEPING\nZOOMIES\nTROUBLEMAKER",
+        "sample_name": "MOOSE",
+        "name_color": "#ff5a00",
+        "caption": "Tap a mood to see it on the sign",
+        "button_label": "Shop CrateMood",
+        "button_link": "shopify://collections/all",
+        "autoplay": false,
+        "autoplay_speed": 3,
+        "color_scheme": "scheme-4",
+        "padding_top": 52,
+        "padding_bottom": 52
       }
     },
     "sizes": {
@@ -36,6 +57,7 @@
         "full": {
           "type": "size",
           "settings": {
+            "image": "shopify://shop_images/full1.png",
             "fallback_asset": "cratemood-real-fullsize-mount.jpg",
             "badge": "",
             "title": "Full Size",
@@ -49,6 +71,7 @@
         "mini": {
           "type": "size",
           "settings": {
+            "image": "shopify://shop_images/Mini1.png",
             "fallback_asset": "cratemood-real-mini.jpg",
             "badge": "",
             "title": "Mini",
@@ -67,31 +90,11 @@
       "settings": {
         "eyebrow": "ONE IDEA.",
         "heading": "TWO SIZES.",
-        "heading_size": "h0",
+        "heading_size": "h1",
         "subheading": "Full Size for kennels, crates and walls. Mini for cats, small dogs, birds, rabbits and more. Same CrateMood. Different size.",
         "color_scheme": "scheme-1",
-        "padding_top": 52,
-        "padding_bottom": 52
-      }
-    },
-    "mood_showcase": {
-      "type": "mood-tile-showcase",
-      "settings": {
-        "eyebrow": "INTERCHANGEABLE MOOD TILES",
-        "heading": "Swap the mood. Not the sign.",
-        "heading_size": "h1",
-        "body": "<p>One base, endless moods. Snap in a new white tile whenever the vibe changes.</p>",
-        "moods": "GOOD BOY\nGOOD GIRL\nNAUGHTY\nALWAYS HUNGRY\nTREAT PLEASE\nLET ME OUT\nPLAY WITH ME\nSLEEPING\nZOOMIES\nTROUBLEMAKER",
-        "sample_name": "BUDDY",
-        "name_color": "#ff5a00",
-        "caption": "Tap a mood to see it on the sign",
-        "button_label": "Shop CrateMood",
-        "button_link": "shopify://collections/all",
-        "autoplay": false,
-        "autoplay_speed": 3,
-        "color_scheme": "scheme-4",
-        "padding_top": 52,
-        "padding_bottom": 52
+        "padding_top": 32,
+        "padding_bottom": 32
       }
     },
     "pets": {
@@ -154,6 +157,7 @@
     "personalization": {
       "type": "cratemood-feature",
       "settings": {
+        "image": "shopify://shop_images/tiles1.png",
         "fallback_asset": "cratemood-real-name-colors.jpg",
         "image_position": "left",
         "eyebrow": "PERSONALIZE",
@@ -165,8 +169,8 @@
         "button_label": "Personalize yours",
         "button_link": "shopify://collections/all",
         "color_scheme": "scheme-1",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "featured": {
@@ -318,8 +322,8 @@
   },
   "order": [
     "hero",
-    "sizes",
     "mood_showcase",
+    "sizes",
     "pets",
     "personalization",
     "featured",
