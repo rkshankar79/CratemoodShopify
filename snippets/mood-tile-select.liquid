@@ -3,7 +3,7 @@
 
   Accepts:
   - index: {Number} tile number (1-4). Required.
-  - moods: {Array} list of mood strings (from theme editor settings). Required.
+  - moods: {Array} list of mood strings (from the central CrateMood catalog). Required.
   - required: {Boolean} whether this tile is required. Default false.
   - form_id: {String} id of the product form to associate the input with. Required.
   - section_id: {String} owning section id (for unique element ids). Required.
@@ -16,7 +16,11 @@
 
 {%- liquid
   assign field_id = 'CrateMoodTile-' | append: section_id | append: '-' | append: index
-  assign field_label = label | default: 'Mood Tile ' | append: index
+  if label != blank
+    assign field_label = label
+  else
+    assign field_label = 'Mood Tile ' | append: index
+  endif
   assign field_placeholder = placeholder | default: 'Choose a mood…'
 -%}
 

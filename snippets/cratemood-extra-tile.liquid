@@ -16,9 +16,13 @@
 {{ 'cratemood-extra-tile.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign moods = block.settings.mood_tiles | newline_to_br | strip_newlines | split: '<br />'
   assign saying_max = block.settings.saying_max_length | default: 20
 -%}
+
+{%- capture cratemood_moods_joined -%}
+  {%- render 'cratemood-mood-catalog', audience: 'extra' -%}
+{%- endcapture -%}
+{%- assign moods = cratemood_moods_joined | strip | split: '||' -%}
 
 <div
   class="cratemood-extra-tile"

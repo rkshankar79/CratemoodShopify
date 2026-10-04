@@ -1,0 +1,163 @@
+{% comment %}
+  Central CrateMood mood catalog.
+
+  Edit the two lists below to add, remove, or change availability.
+  Do not add moods in product block settings or other Liquid files.
+
+  Moods — one per line:
+    LABEL | full, mini, extra
+  Use only the products that should offer that mood.
+
+  Products — one audience per line, matched by handle or numeric ID, never title:
+    full  | handles:handle-one,handle-two | ids:123
+    mini  | handles:handle-one | ids:
+    extra | handles:handle-one,handle-two | ids:
+
+  Render moods for a product (joined with ||):
+    {% render 'cratemood-mood-catalog', product: product %}
+
+  Render moods for an audience:
+    {% render 'cratemood-mood-catalog', audience: 'full' %}
+    {% render 'cratemood-mood-catalog', audience: 'mini' %}
+    {% render 'cratemood-mood-catalog', audience: 'extra' %}
+
+  Detect audience:
+    {% render 'cratemood-mood-catalog', product: product, mode: 'audience' %}
+{% endcomment %}
+
+{%- capture cratemood_catalog_products -%}
+full | handles:cratemood-full-size-personalized-pet-sign,cratemood-full-size | ids:
+mini | handles:cratemood-mini-personalized-pet-sign,cratemood-mini | ids:
+extra | handles:extra-cratemood-mood-tile,cratemood-extra-mood-tile,extra-mood-tile | ids:
+{%- endcapture -%}
+
+{%- capture cratemood_catalog_moods -%}
+GOOD BOY | full, mini, extra
+GOOD GIRL | full, mini, extra
+NAUGHTY | full, mini, extra
+ALWAYS HUNGRY | full, mini, extra
+TREAT PLEASE | full, mini, extra
+LET ME OUT | full, mini, extra
+PLAY WITH ME | full, mini, extra
+SLEEPING | full, mini, extra
+ZOOMIES | full, mini, extra
+TROUBLEMAKER | full, mini, extra
+{%- endcapture -%}
+
+{%- liquid
+  assign mode = mode | default: 'moods' | strip | downcase
+  assign resolved_audience = audience | strip | downcase
+  assign product_handle = ''
+  assign product_id = 0
+
+  if product != blank
+    assign product_handle = product.handle | downcase
+    assign product_id = product.id
+  endif
+
+  if resolved_audience != 'full' and resolved_audience != 'mini' and resolved_audience != 'extra'
+    assign resolved_audience = ''
+  endif
+
+  if resolved_audience == blank and product_handle != blank
+    assign product_rows = cratemood_catalog_products | newline_to_br | strip_newlines | split: '<br />'
+    assign audience_order = 'extra,mini,full' | split: ','
+    for key in audience_order
+      for row in product_rows
+        assign row_clean = row | strip
+        assign row_parts = row_clean | split: '|'
+        assign row_audience = row_parts[0] | strip | downcase
+        if row_clean != blank and row_audience == key
+          assign row_handles = ''
+          assign row_ids = ''
+          for part in row_parts
+            assign part_clean = part | strip
+            assign part_down = part_clean | downcase
+            if part_down contains 'handles:'
+              assign row_handles = part_clean | remove_first: 'handles:' | remove_first: 'Handles:' | strip | downcase | replace: ' ', ''
+            elsif part_down contains 'ids:'
+              assign row_ids = part_clean | remove_first: 'ids:' | remove_first: 'Ids:' | strip | replace: ' ', ''
+            endif
+          endfor
+
+          assign handle_list = row_handles | split: ','
+          for handle_entry in handle_list
+            assign handle_clean = handle_entry | strip
+            if handle_clean != blank and handle_clean == product_handle
+              assign resolved_audience = key
+              break
+            endif
+          endfor
+
+          if resolved_audience == blank
+            assign id_list = row_ids | split: ','
+            for id_entry in id_list
+              assign id_clean = id_entry | strip
+              if id_clean != blank
+                assign id_number = id_clean | plus: 0
+                if id_number == product_id
+                  assign resolved_audience = key
+                  break
+                endif
+              endif
+            endfor
+          endif
+        endif
+        if resolved_audience != blank
+          break
+        endif
+      endfor
+      if resolved_audience != blank
+        break
+      endif
+    endfor
+  endif
+
+  if resolved_audience == blank and product_handle != blank
+    if product_handle contains 'extra-mood' or product_handle contains 'extra-cratemood'
+      assign resolved_audience = 'extra'
+    elsif product_handle contains 'mini'
+      assign resolved_audience = 'mini'
+    elsif product_handle contains 'full-size' or product_handle contains 'full_size'
+      assign resolved_audience = 'full'
+    endif
+  endif
+-%}
+
+{%- if mode == 'audience' -%}
+  {{- resolved_audience -}}
+{%- else -%}
+  {%- liquid
+    assign mood_list = ''
+    assign mood_rows = cratemood_catalog_moods | newline_to_br | strip_newlines | split: '<br />'
+    for row in mood_rows
+      assign row_clean = row | strip
+      assign row_parts = row_clean | split: '|'
+      assign mood_label = row_parts[0] | strip
+      assign flags = row_parts[1] | default: '' | strip | downcase | remove: ' '
+      assign include_mood = false
+
+      if row_clean != blank and mood_label != blank
+        if resolved_audience == 'full' and flags contains 'full'
+          assign include_mood = true
+        elsif resolved_audience == 'mini' and flags contains 'mini'
+          assign include_mood = true
+        elsif resolved_audience == 'extra' and flags contains 'extra'
+          assign include_mood = true
+        elsif resolved_audience == blank
+          if flags contains 'full' or flags contains 'mini'
+            assign include_mood = true
+          endif
+        endif
+      endif
+
+      if include_mood
+        if mood_list != blank
+          assign mood_list = mood_list | append: '||'
+        endif
+        assign mood_list = mood_list | append: mood_label
+      endif
+    endfor
+  -%}
+  {{- mood_list -}}
+{%- endif -%}

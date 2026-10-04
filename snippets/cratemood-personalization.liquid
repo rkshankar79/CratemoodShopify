@@ -6,8 +6,11 @@
     - Mood Tile 1-2   (required)
     - Mood Tile 3-4   (optional for 2-tile package, required for 4-tile package)
 
+  Mood Tile 1–4 options come from the central catalog in cratemood-mood-catalog,
+    filtered for Full Size or Mini by product handle/ID.
+
   The package itself is a REAL Shopify variant (not a property). This block listens to
-  Dawn's `variant-change` event and toggles tiles 3 & 4 based on the selected variant.
+    Dawn's `variant-change` event and toggles tiles 3 & 4 based on the selected variant.
 
   Accepts:
   - block: {Object} the main-product block.
@@ -22,7 +25,6 @@
 {{ 'cratemood-personalization.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign moods = block.settings.mood_tiles | newline_to_br | strip_newlines | split: '<br />'
   assign name_colors = block.settings.name_colors | newline_to_br | strip_newlines | split: '<br />'
   assign four_tile_titles = block.settings.four_tile_variants | newline_to_br | strip_newlines | split: '<br />'
 
@@ -37,6 +39,11 @@
 
   assign name_max = block.settings.name_max_length | default: 12
 -%}
+
+{%- capture cratemood_moods_joined -%}
+  {%- render 'cratemood-mood-catalog', product: product -%}
+{%- endcapture -%}
+{%- assign moods = cratemood_moods_joined | strip | split: '||' -%}
 
 <div
   class="cratemood-personalization"

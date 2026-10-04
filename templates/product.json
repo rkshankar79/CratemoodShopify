@@ -45,7 +45,6 @@
             "color_label": "Pet Name Color",
             "name_colors": "Orange|#FF5A00\nRed|#E23636\nBlue|#2F6DF6\nPink|#FF5FA2",
             "moods_label": "Mood Tiles",
-            "mood_tiles": "GOOD BOY\nGOOD GIRL\nNAUGHTY\nALWAYS HUNGRY\nTREAT PLEASE\nLET ME OUT\nPLAY WITH ME\nSLEEPING\nZOOMIES\nTROUBLEMAKER",
             "four_tile_variants": "Base + 4 Mood Tiles"
           }
         },
@@ -60,7 +59,6 @@
             "type_label": "Tile Type",
             "mood_label": "Choose a mood",
             "mood_placeholder": "Choose a mood…",
-            "mood_tiles": "GOOD BOY\nGOOD GIRL\nNAUGHTY\nALWAYS HUNGRY\nTREAT PLEASE\nLET ME OUT\nPLAY WITH ME\nSLEEPING\nZOOMIES\nTROUBLEMAKER",
             "saying_label": "Custom Saying",
             "saying_placeholder": "e.g. NAP IN PROGRESS",
             "saying_help": "Custom tiles are printed exactly as entered. Please check spelling and capitalization before ordering.",
