@@ -1,12 +1,8 @@
 {% comment %}
   Central CrateMood mood catalog.
 
-  Edit the two lists below to add, remove, or change availability.
-  Do not add moods in product block settings or other Liquid files.
-
-  Moods — one per line:
-    LABEL | full, mini, extra
-  Use only the products that should offer that mood.
+  Moods come from shop.metaobjects.cratemood_mood.values, sorted by sort_order.
+  If that collection is unavailable or empty, the hard-coded list below is used.
 
   Products — one audience per line, matched by handle or numeric ID, never title:
     full  | handles:handle-one,handle-two | ids:123
@@ -129,35 +125,92 @@ TROUBLEMAKER | full, mini, extra
 {%- else -%}
   {%- liquid
     assign mood_list = ''
-    assign mood_rows = cratemood_catalog_moods | newline_to_br | strip_newlines | split: '<br />'
-    for row in mood_rows
-      assign row_clean = row | strip
-      assign row_parts = row_clean | split: '|'
-      assign mood_label = row_parts[0] | strip
-      assign flags = row_parts[1] | default: '' | strip | downcase | remove: ' '
-      assign include_mood = false
+    assign meta_entries = shop.metaobjects.cratemood_mood.values
+    assign has_meta_moods = false
 
-      if row_clean != blank and mood_label != blank
-        if resolved_audience == 'full' and flags contains 'full'
-          assign include_mood = true
-        elsif resolved_audience == 'mini' and flags contains 'mini'
-          assign include_mood = true
-        elsif resolved_audience == 'extra' and flags contains 'extra'
-          assign include_mood = true
-        elsif resolved_audience == blank
-          if flags contains 'full' or flags contains 'mini'
+    if meta_entries != blank
+      for mood in meta_entries
+        assign meta_mood_name = mood.mood_name.value | strip
+        if meta_mood_name != blank
+          assign has_meta_moods = true
+        endif
+      endfor
+    endif
+
+    if has_meta_moods
+      assign sortable_blob = ''
+      for mood in meta_entries
+        assign mood_label = mood.mood_name.value | strip
+        assign include_mood = false
+
+        if mood_label != blank
+          if resolved_audience == 'full' and mood.full_size.value
             assign include_mood = true
+          elsif resolved_audience == 'mini' and mood.mini.value
+            assign include_mood = true
+          elsif resolved_audience == 'extra' and mood.extra_tile.value
+            assign include_mood = true
+          elsif resolved_audience == blank
+            if mood.full_size.value or mood.mini.value
+              assign include_mood = true
+            endif
           endif
         endif
-      endif
 
-      if include_mood
-        if mood_list != blank
-          assign mood_list = mood_list | append: '||'
+        if include_mood
+          assign order_key = mood.sort_order.value | default: 0 | plus: 10000
+          assign sort_line = order_key | append: '~~' | append: mood_label
+          if sortable_blob != blank
+            assign sortable_blob = sortable_blob | append: '|||'
+          endif
+          assign sortable_blob = sortable_blob | append: sort_line
         endif
-        assign mood_list = mood_list | append: mood_label
+      endfor
+
+      if sortable_blob != blank
+        assign sorted_lines = sortable_blob | split: '|||' | sort
+        for line in sorted_lines
+          assign line_parts = line | split: '~~'
+          assign mood_label = line_parts[1] | strip
+          if mood_label != blank
+            if mood_list != blank
+              assign mood_list = mood_list | append: '||'
+            endif
+            assign mood_list = mood_list | append: mood_label
+          endif
+        endfor
       endif
-    endfor
+    else
+      assign mood_rows = cratemood_catalog_moods | newline_to_br | strip_newlines | split: '<br />'
+      for row in mood_rows
+        assign row_clean = row | strip
+        assign row_parts = row_clean | split: '|'
+        assign mood_label = row_parts[0] | strip
+        assign flags = row_parts[1] | default: '' | strip | downcase | remove: ' '
+        assign include_mood = false
+
+        if row_clean != blank and mood_label != blank
+          if resolved_audience == 'full' and flags contains 'full'
+            assign include_mood = true
+          elsif resolved_audience == 'mini' and flags contains 'mini'
+            assign include_mood = true
+          elsif resolved_audience == 'extra' and flags contains 'extra'
+            assign include_mood = true
+          elsif resolved_audience == blank
+            if flags contains 'full' or flags contains 'mini'
+              assign include_mood = true
+            endif
+          endif
+        endif
+
+        if include_mood
+          if mood_list != blank
+            assign mood_list = mood_list | append: '||'
+          endif
+          assign mood_list = mood_list | append: mood_label
+        endif
+      endfor
+    endif
   -%}
   {{- mood_list -}}
 {%- endif -%}
