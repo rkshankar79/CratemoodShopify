@@ -1,0 +1,157 @@
+{% comment %}
+  CrateMood personalization block UI.
+  Collects line-item properties that travel with the cart item and appear on the order:
+    - Pet Name        (required, max 12 chars)
+    - Name Color      (Orange / Red / Blue / Pink — editable)
+    - Mood Tile 1-2   (required)
+    - Mood Tile 3-4   (optional for 2-tile package, required for 4-tile package)
+
+  The package itself is a REAL Shopify variant (not a property). This block listens to
+  Dawn's `variant-change` event and toggles tiles 3 & 4 based on the selected variant.
+
+  Accepts:
+  - block: {Object} the main-product block.
+  - product: {Object} product object.
+  - product_form_id: {String} id of the product form (buy-buttons form).
+  - section: {Object} the main-product section.
+
+  Usage:
+  {% render 'cratemood-personalization', block: block, product: product, product_form_id: product_form_id, section: section %}
+{% endcomment %}
+
+{{ 'cratemood-personalization.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign moods = block.settings.mood_tiles | newline_to_br | strip_newlines | split: '<br />'
+  assign name_colors = block.settings.name_colors | newline_to_br | strip_newlines | split: '<br />'
+  assign four_tile_titles = block.settings.four_tile_variants | newline_to_br | strip_newlines | split: '<br />'
+
+  assign current_title = product.selected_or_first_available_variant.title | default: '' | strip
+  assign is_four_tile = false
+  for t in four_tile_titles
+    assign t_clean = t | strip
+    if t_clean != blank and current_title == t_clean
+      assign is_four_tile = true
+    endif
+  endfor
+
+  assign name_max = block.settings.name_max_length | default: 12
+-%}
+
+<div
+  class="cratemood-personalization"
+  {{ block.shopify_attributes }}
+  data-cratemood-personalization
+  data-form-id="{{ product_form_id }}"
+  data-four-tile-variants="{{ four_tile_titles | join: '||' | escape }}"
+  data-initial-four-tile="{{ is_four_tile }}"
+>
+  {%- if block.settings.heading != blank -%}
+    <h2 class="cratemood-personalization__heading h4">{{ block.settings.heading | escape }}</h2>
+  {%- endif -%}
+  {%- if block.settings.subheading != blank -%}
+    <p class="cratemood-personalization__subheading">{{ block.settings.subheading | escape }}</p>
+  {%- endif -%}
+
+  {%- comment -%} Pet Name {%- endcomment -%}
+  <div class="cratemood-field cratemood-field--name">
+    <label class="cratemood-field__label" for="CrateMoodName-{{ section.id }}">
+      {{ block.settings.name_label | default: 'Pet Name' | escape }}
+      <span class="cratemood-field__required" aria-hidden="true">*</span>
+    </label>
+    <input
+      id="CrateMoodName-{{ section.id }}"
+      class="cratemood-field__control"
+      type="text"
+      name="properties[Pet Name]"
+      form="{{ product_form_id }}"
+      maxlength="{{ name_max }}"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="{{ block.settings.name_placeholder | default: 'e.g. BUDDY' | escape }}"
+      data-cratemood-name
+      data-cratemood-required="true"
+    >
+    <div class="cratemood-field__meta">
+      <small class="cratemood-field__hint">Max {{ name_max }} characters</small>
+      <small class="cratemood-field__counter" data-cratemood-counter>0/{{ name_max }}</small>
+    </div>
+    <small class="cratemood-field__error" data-cratemood-error hidden></small>
+  </div>
+
+  {%- comment -%} Name Color {%- endcomment -%}
+  <div class="cratemood-field cratemood-field--color">
+    <span class="cratemood-field__label">
+      {{ block.settings.color_label | default: 'Pet Name Color' | escape }}
+      <span class="cratemood-field__required" aria-hidden="true">*</span>
+    </span>
+    <div class="cratemood-swatches" role="radiogroup" aria-label="{{ block.settings.color_label | default: 'Pet Name Color' | escape }}">
+      {%- for entry in name_colors -%}
+        {%- assign parts = entry | strip | split: '|' -%}
+        {%- assign color_name = parts[0] | strip -%}
+        {%- assign color_hex = parts[1] | default: color_name | strip -%}
+        {%- if color_name != blank -%}
+          {%- assign color_id = 'CrateMoodColor-' | append: section.id | append: '-' | append: forloop.index -%}
+          <label class="cratemood-swatch" title="{{ color_name | escape }}">
+            <input
+              type="radio"
+              class="cratemood-swatch__input visually-hidden"
+              id="{{ color_id }}"
+              name="properties[Name Color]"
+              value="{{ color_name | escape }}"
+              form="{{ product_form_id }}"
+              data-cratemood-color
+              data-cratemood-required="true"
+              {% if forloop.first %}checked{% endif %}
+            >
+            <span class="cratemood-swatch__chip" style="--cratemood-swatch: {{ color_hex | escape }};"></span>
+            <span class="cratemood-swatch__name">{{ color_name | escape }}</span>
+          </label>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <small class="cratemood-field__error" data-cratemood-error hidden></small>
+  </div>
+
+  {%- comment -%} Mood Tiles {%- endcomment -%}
+  <fieldset class="cratemood-moods" data-cratemood-moods>
+    <legend class="cratemood-field__label cratemood-moods__legend">
+      {{ block.settings.moods_label | default: 'Mood Tiles' | escape }}
+    </legend>
+
+    {% render 'mood-tile-select',
+      index: 1,
+      moods: moods,
+      required: true,
+      form_id: product_form_id,
+      section_id: section.id,
+      label: 'Mood Tile 1'
+    %}
+    {% render 'mood-tile-select',
+      index: 2,
+      moods: moods,
+      required: true,
+      form_id: product_form_id,
+      section_id: section.id,
+      label: 'Mood Tile 2'
+    %}
+    {% render 'mood-tile-select',
+      index: 3,
+      moods: moods,
+      required: false,
+      form_id: product_form_id,
+      section_id: section.id,
+      label: 'Mood Tile 3'
+    %}
+    {% render 'mood-tile-select',
+      index: 4,
+      moods: moods,
+      required: false,
+      form_id: product_form_id,
+      section_id: section.id,
+      label: 'Mood Tile 4'
+    %}
+  </fieldset>
+</div>
+
+<script src="{{ 'cratemood-personalization.js' | asset_url }}" defer="defer"></script>

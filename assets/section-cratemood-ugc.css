@@ -1,0 +1,88 @@
+.cratemood-ugc {
+  --cratemood-orange: #ff5a00;
+}
+
+.cratemood-ugc__head {
+  text-align: center;
+  margin-bottom: 2.4rem;
+}
+
+.cratemood-ugc__heading {
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.08rem;
+}
+
+.cratemood-ugc__subheading {
+  margin: 0;
+  opacity: 0.72;
+}
+
+.cratemood-ugc__slider {
+  position: relative;
+  display: block;
+}
+
+.cratemood-ugc__track {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0.4rem;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.cratemood-ugc__track::-webkit-scrollbar {
+  display: none;
+}
+
+.cratemood-ugc__item {
+  position: relative;
+  flex: 0 0 78%;
+  aspect-ratio: 1 / 1;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.05);
+  scroll-snap-align: start;
+}
+
+@media screen and (min-width: 750px) {
+  .cratemood-ugc__track {
+    gap: 1.4rem;
+  }
+
+  .cratemood-ugc__item {
+    flex-basis: calc((100% - (var(--cratemood-ugc-cols, 3) - 1) * 1.4rem) / var(--cratemood-ugc-cols, 3));
+  }
+}
+
+.cratemood-ugc__buttons {
+  justify-content: center;
+  margin-top: 1.2rem;
+}
+
+.cratemood-ugc__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cratemood-ugc__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.cratemood-ugc__item:hover .cratemood-ugc__image {
+  transform: scale(1.05);
+}
+
+.cratemood-ugc__cta {
+  text-align: center;
+  margin-top: 2.4rem;
+}

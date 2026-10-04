@@ -1,0 +1,118 @@
+.cratemood-products {
+  --cratemood-orange: #ff5a00;
+}
+
+.cratemood-products__head {
+  text-align: center;
+  margin-bottom: 2.8rem;
+}
+
+.cratemood-products__eyebrow {
+  margin: 0 0 0.4rem;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  color: var(--cratemood-orange);
+  font-size: 1.3rem;
+}
+
+.cratemood-products__heading {
+  margin: 0;
+}
+
+.cratemood-products__empty {
+  text-align: center;
+  opacity: 0.7;
+  border: 0.1rem dashed rgba(var(--color-foreground), 0.3);
+  border-radius: 1.2rem;
+  padding: 2.4rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.cratemood-products__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+}
+
+@media screen and (min-width: 750px) {
+  .cratemood-products__grid {
+    grid-template-columns: repeat(var(--cratemood-products-cols, 2), 1fr);
+    gap: 2.4rem;
+  }
+}
+
+.cratemood-product-card {
+  display: flex;
+  flex-direction: column;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  border-radius: 1.4rem;
+  overflow: hidden;
+  background: rgb(var(--color-background));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cratemood-product-card:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 1.6rem 3.6rem rgba(var(--color-foreground), 0.12);
+}
+
+.cratemood-product-card__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.cratemood-product-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cratemood-product-card__badge {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+  background: var(--cratemood-orange);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border-radius: 10rem;
+}
+
+.cratemood-product-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 1.6rem 1.8rem 2rem;
+}
+
+.cratemood-product-card__title {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.cratemood-product-card__title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.cratemood-product-card__price {
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.cratemood-product-card__button {
+  margin-top: 1rem;
+  width: 100%;
+}

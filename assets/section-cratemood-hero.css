@@ -1,0 +1,120 @@
+.cratemood-hero {
+  --cratemood-orange: #ff5a00;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  min-height: var(--cratemood-hero-min, 480px);
+}
+
+@media screen and (min-width: 750px) {
+  .cratemood-hero {
+    min-height: var(--cratemood-hero-min-desktop, 640px);
+  }
+}
+
+.cratemood-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #0d0d0d;
+}
+
+.cratemood-hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.cratemood-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, calc(var(--cratemood-hero-overlay, 0.4) * 0.6)) 0%,
+    rgba(0, 0, 0, var(--cratemood-hero-overlay, 0.4)) 100%
+  );
+}
+
+.cratemood-hero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  color: #fff;
+}
+
+.cratemood-hero--center .cratemood-hero__content {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.cratemood-hero--center .cratemood-hero__subheading,
+.cratemood-hero--center .cratemood-hero__buttons {
+  margin-inline: auto;
+}
+
+.cratemood-hero__eyebrow {
+  margin: 0 0 1rem;
+  font-weight: 700;
+  letter-spacing: 0.35rem;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+.cratemood-hero__eyebrow::after {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 0.3rem;
+  margin-top: 1rem;
+  background: var(--cratemood-orange);
+}
+
+.cratemood-hero--center .cratemood-hero__eyebrow::after {
+  margin-inline: auto;
+}
+
+.cratemood-hero__heading {
+  margin: 0 0 1.2rem;
+  color: #fff;
+  letter-spacing: 0.1rem;
+  text-shadow: 0 0.2rem 2rem rgba(0, 0, 0, 0.35);
+  max-width: 18ch;
+}
+
+.cratemood-hero--center .cratemood-hero__heading {
+  margin-inline: auto;
+}
+
+.cratemood-hero__subheading {
+  margin: 0 0 2.4rem;
+  max-width: 46ch;
+  font-size: 1.8rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 0.1rem 1rem rgba(0, 0, 0, 0.35);
+}
+
+.cratemood-hero__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.cratemood-hero--center .cratemood-hero__buttons {
+  justify-content: center;
+}
+
+.cratemood-hero__button {
+  min-width: 18rem;
+}
+
+@media screen and (max-width: 749px) {
+  .cratemood-hero__button {
+    width: 100%;
+    min-width: 0;
+  }
+}

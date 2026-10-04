@@ -1,0 +1,212 @@
+{{ 'section-cratemood-products.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #CrateMoodProducts-{{ section.id }} {
+    --cratemood-products-cols: {{ section.settings.columns_desktop }};
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign has_products = false
+  for block in section.blocks
+    if block.settings.product != blank
+      assign has_products = true
+      break
+    endif
+  endfor
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div
+    id="CrateMoodProducts-{{ section.id }}"
+    class="page-width section-{{ section.id }}-padding cratemood-products{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  >
+    {%- if section.settings.heading != blank -%}
+      <div class="cratemood-products__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="cratemood-products__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="cratemood-products__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- if has_products -%}
+      <ul class="cratemood-products__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign product = block.settings.product -%}
+          {%- if product != blank -%}
+            <li class="cratemood-product-card" {{ block.shopify_attributes }}>
+              <a class="cratemood-product-card__media" href="{{ product.url }}">
+                {%- if product.featured_media != blank -%}
+                  {{
+                    product.featured_media
+                    | image_url: width: 800
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '300, 450, 600, 800',
+                      sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+                      alt: product.featured_media.alt | default: product.title
+                  }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'cratemood-product-card__image placeholder-svg' }}
+                {%- endif -%}
+                {%- if block.settings.badge != blank -%}
+                  <span class="cratemood-product-card__badge">{{ block.settings.badge | escape }}</span>
+                {%- endif -%}
+              </a>
+              <div class="cratemood-product-card__body">
+                <h3 class="cratemood-product-card__title">
+                  <a href="{{ product.url }}">{{ product.title | escape }}</a>
+                </h3>
+                <span class="cratemood-product-card__price">
+                  {%- if product.price_varies -%}
+                    {{ 'products.product.price.from_price_html' | t: price: product.price | money }}
+                  {%- else -%}
+                    {{ product.price | money }}
+                  {%- endif -%}
+                </span>
+                <a
+                  class="button cratemood-cta cratemood-product-card__button"
+                  href="{{ product.url }}"
+                >
+                  {{ block.settings.button_label | default: section.settings.button_label | default: 'Shop now' | escape }}
+                </a>
+              </div>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- elsif request.design_mode -%}
+      <p class="cratemood-products__empty">
+        Assign your CrateMood products (Full Size and Mini) to the blocks in this section. Until a product is selected, this section stays empty on the live store — no placeholders are shown.
+      </p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CrateMood products",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop CrateMood"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" },
+        { "value": "h0", "label": "Extra large" }
+      ],
+      "default": "h2",
+      "label": "Heading size"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Default button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 2
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 44
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Select a real CrateMood product (e.g. Full Size or Mini). Empty blocks are not shown on the storefront."
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "info": "Overrides the default button label for this product."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "CrateMood products",
+      "blocks": [
+        { "type": "product", "settings": { "badge": "Full Size" } },
+        { "type": "product", "settings": { "badge": "Mini" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

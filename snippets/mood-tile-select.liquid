@@ -1,0 +1,60 @@
+{% comment %}
+  Renders a single CrateMood mood-tile <select> that submits as a line-item property.
+
+  Accepts:
+  - index: {Number} tile number (1-4). Required.
+  - moods: {Array} list of mood strings (from theme editor settings). Required.
+  - required: {Boolean} whether this tile is required. Default false.
+  - form_id: {String} id of the product form to associate the input with. Required.
+  - section_id: {String} owning section id (for unique element ids). Required.
+  - label: {String} visible label for the field. Optional.
+  - placeholder: {String} first/empty option label. Optional.
+
+  Usage:
+  {% render 'mood-tile-select', index: 1, moods: moods, required: true, form_id: product_form_id, section_id: section.id %}
+{% endcomment %}
+
+{%- liquid
+  assign field_id = 'CrateMoodTile-' | append: section_id | append: '-' | append: index
+  assign field_label = label | default: 'Mood Tile ' | append: index
+  assign field_placeholder = placeholder | default: 'Choose a mood…'
+-%}
+
+<div
+  class="cratemood-field cratemood-field--mood"
+  data-cratemood-mood-field="{{ index }}"
+  {% unless required %}data-cratemood-optional{% endunless %}
+>
+  <label class="cratemood-field__label" for="{{ field_id }}">
+    {{ field_label }}
+    {%- if required -%}
+      <span class="cratemood-field__required" aria-hidden="true">*</span>
+    {%- else -%}
+      <span class="cratemood-field__hint">(optional)</span>
+    {%- endif -%}
+  </label>
+
+  <div class="cratemood-select-wrapper">
+    <select
+      id="{{ field_id }}"
+      class="cratemood-field__control select__select"
+      name="properties[Mood Tile {{ index }}]"
+      form="{{ form_id }}"
+      data-cratemood-mood="{{ index }}"
+      {% if required %}data-cratemood-required="true"{% endif %}
+    >
+      <option value="">{{ field_placeholder }}</option>
+      {%- for mood in moods -%}
+        {%- assign mood_label = mood | strip -%}
+        {%- if mood_label != blank -%}
+          <option value="{{ mood_label | escape }}">{{ mood_label | escape }}</option>
+        {%- endif -%}
+      {%- endfor -%}
+    </select>
+    <span class="svg-wrapper cratemood-select-wrapper__icon">
+      {{- 'icon-caret.svg' | inline_asset_content -}}
+    </span>
+  </div>
+
+  <small class="cratemood-field__error" data-cratemood-error hidden></small>
+</div>

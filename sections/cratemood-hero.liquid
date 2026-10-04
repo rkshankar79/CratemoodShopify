@@ -1,0 +1,227 @@
+{{ 'section-cratemood-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #CrateMoodHero-{{ section.id }} {
+    --cratemood-hero-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --cratemood-hero-min: {{ section.settings.mobile_height }}px;
+    --cratemood-hero-min-desktop: {{ section.settings.desktop_height }}px;
+  }
+{%- endstyle -%}
+
+<div
+  id="CrateMoodHero-{{ section.id }}"
+  class="color-{{ section.settings.color_scheme }} gradient cratemood-hero cratemood-hero--{{ section.settings.content_alignment }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="cratemood-hero__media">
+    {% render 'cratemood-image',
+      image: section.settings.image,
+      fallback: section.settings.fallback_asset,
+      class: 'cratemood-hero__image',
+      loading: 'eager',
+      fetchpriority: 'high',
+      sizes: '100vw',
+      alt: section.settings.heading
+    %}
+    <span class="cratemood-hero__overlay" aria-hidden="true"></span>
+  </div>
+
+  <div class="page-width section-{{ section.id }}-padding cratemood-hero__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="cratemood-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h1 class="cratemood-hero__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h1>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="cratemood-hero__subheading">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <div class="cratemood-hero__buttons">
+        <a
+          class="button cratemood-cta cratemood-hero__button"
+          {% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ section.settings.button_link }}"{% endif %}
+        >
+          {{ section.settings.button_label | escape }}
+        </a>
+        {%- if section.settings.button_label_2 != blank -%}
+          <a
+            class="button button--secondary cratemood-hero__button"
+            {% if section.settings.button_link_2 == blank %}role="link" aria-disabled="true"{% else %}href="{{ section.settings.button_link_2 }}"{% endif %}
+          >
+            {{ section.settings.button_label_2 | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CrateMood hero",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Pick a hero image. If left empty, a built-in placeholder is shown."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Placeholder asset (fallback)",
+      "info": "Theme asset filename used only when no image is chosen. Replace by picking a Hero image above.",
+      "default": "cratemood-real-lifestyle-moose.jpg"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "MOOD TILES FOR PETS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "GIVE YOUR PET A MOOD."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h0", "label": "Extra large" },
+        { "value": "hxl", "label": "Huge" }
+      ],
+      "default": "hxl",
+      "label": "Heading size"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Personalized pet signs with interchangeable mood tiles."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary button label",
+      "default": "Shop CrateMood"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Secondary button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center",
+      "label": "Content alignment"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Image overlay opacity",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 300,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "label": "Mobile height",
+      "default": 480
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 640
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-3"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "CrateMood hero"
+    }
+  ]
+}
+{% endschema %}

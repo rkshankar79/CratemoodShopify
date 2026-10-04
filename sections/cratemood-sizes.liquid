@@ -1,0 +1,234 @@
+{{ 'section-cratemood-sizes.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding cratemood-sizes{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="cratemood-sizes__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="cratemood-sizes__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="cratemood-sizes__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="cratemood-sizes__subheading">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="cratemood-sizes__grid">
+      {%- for block in section.blocks -%}
+        <div class="cratemood-size-card" {{ block.shopify_attributes }}>
+          <div class="cratemood-size-card__media">
+            {% render 'cratemood-image',
+              image: block.settings.image,
+              fallback: block.settings.fallback_asset,
+              class: 'cratemood-size-card__image',
+              widths: '300, 450, 600, 750, 900, 1200',
+              sizes: '(min-width: 750px) 45vw, 100vw',
+              alt: block.settings.title
+            %}
+            {%- if block.settings.badge != blank -%}
+              <span class="cratemood-size-card__badge">{{ block.settings.badge | escape }}</span>
+            {%- endif -%}
+          </div>
+
+          <div class="cratemood-size-card__body">
+            {%- if block.settings.title != blank -%}
+              <h3 class="cratemood-size-card__title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.dimensions != blank -%}
+              <p class="cratemood-size-card__dimensions">{{ block.settings.dimensions | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.best_for != blank -%}
+              <p class="cratemood-size-card__bestfor">{{ block.settings.best_for | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.button_label != blank -%}
+              <a
+                class="button cratemood-size-card__button{% if block.settings.button_style_primary %} cratemood-cta{% else %} button--secondary{% endif %}"
+                {% if block.settings.button_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ block.settings.button_link }}"{% endif %}
+              >
+                {{ block.settings.button_label | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CrateMood sizes",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ONE IDEA."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "TWO SIZES."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h0", "label": "Extra large" },
+        { "value": "hxl", "label": "Huge" }
+      ],
+      "default": "h0",
+      "label": "Heading size"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Full Size for kennels, crates and walls. Mini for cats, small dogs, birds, rabbits and more. Same CrateMood. Different size."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "size",
+      "name": "Size",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "fallback_asset",
+          "label": "Placeholder asset (fallback)",
+          "info": "Theme asset filename shown only when no image is chosen."
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Full Size"
+        },
+        {
+          "type": "text",
+          "id": "dimensions",
+          "label": "Dimensions",
+          "default": "5.9\" × 3.0\" (150 × 77 mm)"
+        },
+        {
+          "type": "text",
+          "id": "best_for",
+          "label": "Best for",
+          "default": "Dog crates, larger dogs, doors & walls"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Full Size"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_style_primary",
+          "label": "Use primary button style",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "CrateMood sizes",
+      "blocks": [
+        {
+          "type": "size",
+          "settings": {
+            "title": "Full Size",
+            "fallback_asset": "cratemood-real-fullsize-mount.jpg",
+            "badge": "",
+            "dimensions": "5.9\" × 3.0\" (150 × 77 mm)",
+            "best_for": "Dog crates, larger dogs, doors & walls",
+            "button_label": "Shop Full Size",
+            "button_style_primary": true
+          }
+        },
+        {
+          "type": "size",
+          "settings": {
+            "title": "Mini",
+            "fallback_asset": "cratemood-real-mini.jpg",
+            "badge": "",
+            "dimensions": "3.75\" × 2.0\" (95 × 50 mm)",
+            "best_for": "Cats, small dogs, rabbits, birds & small pets",
+            "button_label": "Shop Mini",
+            "button_style_primary": false
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

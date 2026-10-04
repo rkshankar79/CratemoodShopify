@@ -1,0 +1,200 @@
+.mood-showcase {
+  --cratemood-orange: #ff5a00;
+}
+
+.mood-showcase__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media screen and (min-width: 750px) {
+  .mood-showcase__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+}
+
+.mood-showcase__eyebrow {
+  margin: 0 0 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  color: var(--cratemood-orange);
+  font-size: 1.3rem;
+}
+
+.mood-showcase__heading {
+  margin: 0 0 1.2rem;
+}
+
+.mood-showcase__body {
+  opacity: 0.82;
+  margin-bottom: 2rem;
+}
+
+.mood-showcase__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.mood-chip {
+  font-family: inherit;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  padding: 0.8rem 1.4rem;
+  border-radius: 10rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.35);
+  background: transparent;
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mood-chip:hover {
+  border-color: var(--cratemood-orange);
+  color: var(--cratemood-orange);
+}
+
+.mood-chip--active {
+  background: var(--cratemood-orange);
+  border-color: var(--cratemood-orange);
+  color: #fff;
+}
+
+/* Sign preview — matches the flat CrateMood plaque layout */
+.mood-showcase__preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.mood-sign {
+  --mood-sign-accent: var(--cratemood-orange);
+  width: 100%;
+  max-width: 46rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mood-sign__plaque {
+  position: relative;
+  width: 100%;
+  background: #111;
+  border: 0.45rem solid var(--mood-sign-accent);
+  border-radius: 2.4rem;
+  padding: 3.2rem 2.4rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  box-shadow: 0 1.6rem 4rem rgba(0, 0, 0, 0.28);
+}
+
+.mood-sign__hole {
+  position: absolute;
+  top: 1.4rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: rgb(var(--color-background));
+  box-shadow: inset 0 0 0 0.18rem #111;
+}
+
+.mood-sign__hole--left {
+  left: 2.2rem;
+}
+
+.mood-sign__hole--right {
+  right: 2.2rem;
+}
+
+.mood-sign__name {
+  color: var(--mood-sign-accent);
+  font-size: clamp(3.2rem, 7vw, 5.6rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 0.95;
+  text-align: center;
+}
+
+.mood-sign__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 7.2rem;
+  padding: 1.2rem 1.6rem;
+  background: #0b0b0b;
+  border-radius: 1.6rem;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  line-height: 1.05;
+  text-align: center;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.mood-sign__paw {
+  width: 3.2rem;
+  height: 3.6rem;
+  margin-top: -0.2rem;
+  background: #111;
+  border-bottom-left-radius: 1.6rem 1.4rem;
+  border-bottom-right-radius: 1.6rem 1.4rem;
+  position: relative;
+}
+
+.mood-sign__paw::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0.7rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+.mood-sign__paw::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0.35rem;
+  width: 2.6rem;
+  height: 1.1rem;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(circle at 12% 50%, #fff 0.32rem, transparent 0.34rem),
+    radial-gradient(circle at 37% 70%, #fff 0.28rem, transparent 0.3rem),
+    radial-gradient(circle at 63% 70%, #fff 0.28rem, transparent 0.3rem),
+    radial-gradient(circle at 88% 50%, #fff 0.32rem, transparent 0.34rem);
+}
+
+.mood-sign__tile--swap {
+  opacity: 0;
+  transform: translateY(0.4rem);
+}
+
+.mood-showcase__caption {
+  margin: 0;
+  font-size: 1.3rem;
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mood-sign__tile {
+    transition: none;
+  }
+}

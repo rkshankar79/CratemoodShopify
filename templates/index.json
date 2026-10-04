@@ -1,0 +1,329 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "cratemood-hero",
+      "settings": {
+        "fallback_asset": "cratemood-real-lifestyle-moose.jpg",
+        "eyebrow": "MOOD TILES FOR PETS",
+        "heading": "GIVE YOUR PET A MOOD.",
+        "heading_size": "hxl",
+        "subheading": "Personalized pet signs with interchangeable mood tiles.",
+        "button_label": "Shop CrateMood",
+        "button_link": "shopify://collections/all",
+        "button_label_2": "",
+        "button_link_2": "",
+        "content_alignment": "center",
+        "overlay_opacity": 45,
+        "mobile_height": 480,
+        "desktop_height": 660,
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "sizes": {
+      "type": "cratemood-sizes",
+      "blocks": {
+        "full": {
+          "type": "size",
+          "settings": {
+            "fallback_asset": "cratemood-real-fullsize-mount.jpg",
+            "badge": "",
+            "title": "Full Size",
+            "dimensions": "5.9\" × 3.0\" (150 × 77 mm)",
+            "best_for": "Dog crates, larger dogs, doors & walls",
+            "button_label": "Shop Full Size",
+            "button_link": "shopify://products/cratemood-full-size-personalized-pet-sign",
+            "button_style_primary": true
+          }
+        },
+        "mini": {
+          "type": "size",
+          "settings": {
+            "fallback_asset": "cratemood-real-mini.jpg",
+            "badge": "",
+            "title": "Mini",
+            "dimensions": "3.75\" × 2.0\" (95 × 50 mm)",
+            "best_for": "Cats, small dogs, rabbits, birds & small pets",
+            "button_label": "Shop Mini",
+            "button_link": "shopify://products/cratemood-mini-personalized-pet-sign",
+            "button_style_primary": true
+          }
+        }
+      },
+      "block_order": [
+        "full",
+        "mini"
+      ],
+      "settings": {
+        "eyebrow": "ONE IDEA.",
+        "heading": "TWO SIZES.",
+        "heading_size": "h0",
+        "subheading": "Full Size for kennels, crates and walls. Mini for cats, small dogs, birds, rabbits and more. Same CrateMood. Different size.",
+        "color_scheme": "scheme-1",
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    },
+    "mood_showcase": {
+      "type": "mood-tile-showcase",
+      "settings": {
+        "eyebrow": "INTERCHANGEABLE MOOD TILES",
+        "heading": "Swap the mood. Not the sign.",
+        "heading_size": "h1",
+        "body": "<p>One base, endless moods. Snap in a new white tile whenever the vibe changes.</p>",
+        "moods": "GOOD BOY\nGOOD GIRL\nNAUGHTY\nALWAYS HUNGRY\nTREAT PLEASE\nLET ME OUT\nPLAY WITH ME\nSLEEPING\nZOOMIES\nTROUBLEMAKER",
+        "sample_name": "BUDDY",
+        "name_color": "#ff5a00",
+        "caption": "Tap a mood to see it on the sign",
+        "button_label": "Shop CrateMood",
+        "button_link": "shopify://collections/all",
+        "autoplay": false,
+        "autoplay_speed": 3,
+        "color_scheme": "scheme-4",
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    },
+    "pets": {
+      "type": "cratemood-pets",
+      "blocks": {
+        "dogs": {
+          "type": "pet",
+          "settings": {
+            "fallback_asset": "cratemood-real-lifestyle-moose.jpg",
+            "title": "Dogs",
+            "text": "From crate signs to kennel tags for pups of every size.",
+            "link": ""
+          }
+        },
+        "cats": {
+          "type": "pet",
+          "settings": {
+            "fallback_asset": "cratemood-pets-cat.jpg",
+            "title": "Cats",
+            "text": "Mini tiles made for carriers, shelves, baskets and cozy corners.",
+            "link": ""
+          }
+        },
+        "rabbits": {
+          "type": "pet",
+          "settings": {
+            "fallback_asset": "cratemood-pets-rabbit.jpg",
+            "title": "Rabbits & small pets",
+            "text": "Hutches, cages and enclosures for rabbits and more.",
+            "link": ""
+          }
+        },
+        "other": {
+          "type": "pet",
+          "settings": {
+            "fallback_asset": "cratemood-pets-other.jpg",
+            "title": "Every other pet",
+            "text": "If they have a personality, they deserve a mood.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "dogs",
+        "cats",
+        "rabbits",
+        "other"
+      ],
+      "settings": {
+        "eyebrow": "FOR EVERY PERSONALITY",
+        "heading": "Made for every pet",
+        "heading_size": "h1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "personalization": {
+      "type": "cratemood-feature",
+      "settings": {
+        "fallback_asset": "cratemood-real-name-colors.jpg",
+        "image_position": "left",
+        "eyebrow": "PERSONALIZE",
+        "heading": "Make it theirs",
+        "heading_size": "h1",
+        "text": "<p>Add your pet's name and pick a color. Then choose the moods that match their personality.</p>",
+        "show_swatches": true,
+        "swatches": "Orange|#FF5A00\nRed|#E23636\nBlue|#2F6DF6\nPink|#FF5FA2",
+        "button_label": "Personalize yours",
+        "button_link": "shopify://collections/all",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "featured": {
+      "type": "cratemood-products",
+      "blocks": {
+        "full": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "badge": "Full Size",
+            "button_label": "Shop Full Size"
+          }
+        },
+        "mini": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "badge": "Mini",
+            "button_label": "Shop Mini"
+          }
+        }
+      },
+      "block_order": [
+        "full",
+        "mini"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "Shop CrateMood",
+        "heading_size": "h2",
+        "button_label": "Shop now",
+        "columns_desktop": 2,
+        "color_scheme": "scheme-1",
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "ugc": {
+      "type": "cratemood-ugc",
+      "blocks": {
+        "one": {
+          "type": "post",
+          "settings": {
+            "fallback_asset": "cratemood-real-lifestyle-willow.jpg",
+            "link": ""
+          }
+        },
+        "three": {
+          "type": "post",
+          "settings": {
+            "fallback_asset": "cratemood-real-lifestyle-moose.jpg",
+            "link": ""
+          }
+        },
+        "post_TfwdtC": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8244.jpg",
+            "fallback_asset": "",
+            "link": ""
+          }
+        },
+        "post_iiWQ7m": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8249.jpg",
+            "fallback_asset": "",
+            "link": ""
+          }
+        },
+        "post_NeDWnj": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8247.jpg",
+            "fallback_asset": "",
+            "link": ""
+          }
+        },
+        "post_ktDYX3": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8238.jpg",
+            "fallback_asset": "",
+            "link": ""
+          }
+        },
+        "two": {
+          "type": "post",
+          "settings": {
+            "fallback_asset": "cratemood-real-lifestyle-wall.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "one",
+        "three",
+        "post_TfwdtC",
+        "post_iiWQ7m",
+        "post_NeDWnj",
+        "post_ktDYX3",
+        "two"
+      ],
+      "settings": {
+        "heading": "REAL PETS. REAL MOODS.",
+        "heading_size": "h1",
+        "subheading": "See how pet people are using CrateMood.",
+        "columns_desktop": 3,
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Join the pack",
+            "heading_size": "h2"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>New moods, drops and pet-approved updates. No spam.</p>"
+          }
+        },
+        "email_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "full_width": true,
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "sizes",
+    "mood_showcase",
+    "pets",
+    "personalization",
+    "featured",
+    "ugc",
+    "newsletter"
+  ]
+}

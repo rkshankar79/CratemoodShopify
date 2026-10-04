@@ -1,0 +1,113 @@
+.cratemood-sizes {
+  --cratemood-orange: #ff5a00;
+}
+
+.cratemood-sizes__head {
+  text-align: center;
+  max-width: 72rem;
+  margin: 0 auto 3.2rem;
+}
+
+.cratemood-sizes__eyebrow {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  color: var(--cratemood-orange);
+  font-size: 1.4rem;
+}
+
+.cratemood-sizes__heading {
+  margin: 0.4rem 0 0;
+  letter-spacing: 0.1rem;
+}
+
+.cratemood-sizes__subheading {
+  margin: 1.2rem auto 0;
+  max-width: 56rem;
+  opacity: 0.78;
+}
+
+.cratemood-sizes__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .cratemood-sizes__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+}
+
+.cratemood-size-card {
+  display: flex;
+  flex-direction: column;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  border-radius: 1.6rem;
+  overflow: hidden;
+  background: rgb(var(--color-background));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cratemood-size-card:hover {
+  transform: translateY(-0.4rem);
+  box-shadow: 0 2rem 4rem rgba(var(--color-foreground), 0.12);
+}
+
+.cratemood-size-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #f6f6f4;
+}
+
+.cratemood-size-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.cratemood-size-card__badge {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+  background: var(--cratemood-orange);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 10rem;
+}
+
+.cratemood-size-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 2rem 2.2rem 2.4rem;
+}
+
+.cratemood-size-card__title {
+  margin: 0;
+  font-size: 2.4rem;
+  letter-spacing: 0.05rem;
+}
+
+.cratemood-size-card__dimensions {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.cratemood-size-card__bestfor {
+  margin: 0;
+  opacity: 0.72;
+}
+
+.cratemood-size-card__button {
+  margin-top: 1.4rem;
+}

@@ -1,0 +1,57 @@
+{% comment %}
+  Renders an editable image that is ALWAYS driven by a theme-editor image_picker,
+  with a bundled placeholder asset used only as a fallback when none is chosen.
+
+  Replacing imagery later = just pick an image in the theme editor. No code changes.
+
+  Accepts:
+  - image:    {Object}  image_picker setting value (may be blank). Takes priority.
+  - fallback: {String}  bundled asset filename used when `image` is blank (optional).
+  - class:    {String}  CSS class(es) for the <img>. Optional.
+  - sizes:    {String}  responsive sizes attribute. Default '100vw'.
+  - widths:   {String}  candidate widths for srcset. Optional.
+  - loading:  {String}  'lazy' (default) or 'eager'.
+  - fetchpriority: {String} optional fetchpriority hint.
+  - alt:      {String}  alt text. Optional.
+
+  Usage:
+  {% render 'cratemood-image', image: section.settings.image, fallback: 'cratemood-hero.jpg', class: 'foo', sizes: '100vw' %}
+{% endcomment %}
+
+{%- liquid
+  assign img_class = class | default: ''
+  assign img_loading = loading | default: 'lazy'
+  assign img_sizes = sizes | default: '100vw'
+  assign img_widths = widths | default: '300, 500, 750, 1000, 1500, 2000'
+  assign img_alt = alt | default: ''
+  assign img_w = fallback_width | default: 1600
+  assign img_h = fallback_height | default: 1200
+-%}
+
+{%- if image != blank -%}
+  {{
+    image
+    | image_url: width: 2000
+    | image_tag:
+      loading: img_loading,
+      fetchpriority: fetchpriority,
+      widths: img_widths,
+      sizes: img_sizes,
+      class: img_class,
+      alt: img_alt
+  }}
+{%- elsif fallback != blank -%}
+  <img
+    src="{{ fallback | asset_url }}"
+    alt="{{ img_alt | escape }}"
+    class="{{ img_class }}"
+    width="{{ img_w }}"
+    height="{{ img_h }}"
+    loading="{{ img_loading }}"
+    sizes="{{ img_sizes }}"
+    {% if fetchpriority != blank %}fetchpriority="{{ fetchpriority }}"{% endif %}
+  >
+{%- else -%}
+  {%- assign placeholder_class = img_class | append: ' placeholder-svg' -%}
+  {{ 'image' | placeholder_svg_tag: placeholder_class }}
+{%- endif -%}

@@ -1,0 +1,204 @@
+{{ 'section-cratemood-feature.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign swatches = section.settings.swatches | newline_to_br | strip_newlines | split: '<br />'
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="page-width section-{{ section.id }}-padding cratemood-feature cratemood-feature--{{ section.settings.image_position }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  >
+    <div class="cratemood-feature__media">
+      {% render 'cratemood-image',
+        image: section.settings.image,
+        fallback: section.settings.fallback_asset,
+        class: 'cratemood-feature__image',
+        widths: '400, 600, 800, 1000, 1200',
+        sizes: '(min-width: 750px) 50vw, 100vw',
+        alt: section.settings.heading
+      %}
+    </div>
+
+    <div class="cratemood-feature__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="cratemood-feature__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="cratemood-feature__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="cratemood-feature__text rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.show_swatches and swatches.size > 0 -%}
+        <div class="cratemood-feature__swatches">
+          {%- for entry in swatches -%}
+            {%- assign parts = entry | strip | split: '|' -%}
+            {%- assign c_name = parts[0] | strip -%}
+            {%- assign c_hex = parts[1] | default: c_name | strip -%}
+            {%- if c_name != blank -%}
+              <span class="cratemood-feature__swatch" title="{{ c_name | escape }}">
+                <span class="cratemood-feature__swatch-chip" style="--cratemood-swatch: {{ c_hex | escape }};"></span>
+                <span class="cratemood-feature__swatch-name">{{ c_name | escape }}</span>
+              </span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <a
+          class="button cratemood-cta cratemood-feature__button"
+          {% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ section.settings.button_link }}"{% endif %}
+        >
+          {{ section.settings.button_label | escape }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CrateMood feature",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Placeholder asset (fallback)",
+      "info": "Theme asset filename shown only when no image is chosen.",
+      "default": "cratemood-real-name-colors.jpg"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "options": [
+        { "value": "left", "label": "Image left" },
+        { "value": "right", "label": "Image right" }
+      ],
+      "default": "left",
+      "label": "Image position"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "PERSONALIZE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Make it theirs"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" },
+        { "value": "h0", "label": "Extra large" }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Add your pet's name and pick a color. Then choose the moods that match their personality.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Name colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show name color swatches",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "swatches",
+      "label": "Name colors",
+      "info": "One per line as Label|#hex",
+      "default": "Orange|#FF5A00\nRed|#E23636\nBlue|#2F6DF6\nPink|#FF5FA2"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Personalize yours"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "CrateMood feature"
+    }
+  ]
+}
+{% endschema %}

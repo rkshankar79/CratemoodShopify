@@ -1,0 +1,14 @@
+/* CrateMood brand CTA: orange primary buttons that still use Dawn's button system.
+   Applied selectively to primary conversion CTAs. Secondary buttons stay neutral
+   to preserve the black/white foundation. */
+.button.cratemood-cta,
+.cratemood-cta.button {
+  --color-button: 255, 90, 0;
+  --color-button-text: 255, 255, 255;
+  --alpha-button-background: 1;
+}
+
+.button.cratemood-cta:hover,
+.cratemood-cta.button:hover {
+  --color-button: 230, 78, 0;
+}
