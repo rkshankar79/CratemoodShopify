@@ -77,9 +77,12 @@
         class="cratemood-extra-tile__control"
         name="properties[Mood]"
         form="{{ product_form_id }}"
+        autocomplete="off"
         data-extra-tile-mood
       >
-        <option value="">{{ block.settings.mood_placeholder | default: 'Choose a mood…' | escape }}</option>
+        <option value="" selected>
+          {{- block.settings.mood_placeholder | default: 'Choose a mood…' | escape -}}
+        </option>
         {%- for mood in moods -%}
           {%- assign mood_label = mood | strip -%}
           {%- if mood_label != blank -%}

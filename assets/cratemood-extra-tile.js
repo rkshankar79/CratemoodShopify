@@ -44,8 +44,16 @@
       this.bindTypeToggle();
       this.bindCounter();
       this.bindClearOnInput();
+      this.resetMoodPlaceholder();
       this.applyType(this.selectedType());
       this.bindSubmitGuard();
+    }
+
+    resetMoodPlaceholder() {
+      if (!this.moodSelect) return;
+      this.moodSelect.value = '';
+      const placeholder = this.moodSelect.querySelector('option[value=""]');
+      if (placeholder) placeholder.selected = true;
     }
 
     selectedType() {
@@ -61,7 +69,7 @@
 
       if (this.moodSelect) {
         this.moodSelect.disabled = isCustom;
-        if (isCustom) this.moodSelect.value = '';
+        if (isCustom) this.resetMoodPlaceholder();
       }
 
       if (this.sayingInput) {
@@ -138,9 +146,17 @@
         if (firstInvalid) {
           evt.preventDefault();
           evt.stopImmediatePropagation();
+          if (this.moodSelect && this.selectedType() === 'standard') {
+            this.moodSelect.disabled = false;
+          }
           const focusable = firstInvalid.querySelector('input, select, textarea');
           firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
           focusable?.focus({ preventScroll: true });
+          return;
+        }
+
+        if (this.moodSelect && this.moodSelect.value.trim() === '') {
+          this.moodSelect.disabled = true;
         }
       };
       document.addEventListener('submit', this.submitHandler, true);
