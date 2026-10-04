@@ -85,6 +85,20 @@
             class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
           >
             {%- assign product_form_id = 'product-form-' | append: section.id -%}
+            {%- assign is_extra_tile_product = '' -%}
+            {%- for extra_block in section.blocks -%}
+              {%- if extra_block.type == 'cratemood_extra_tile' -%}
+                {%- capture is_extra_tile_product -%}
+                  {%- render 'cratemood-extra-tile-match',
+                    product: product,
+                    extra_product: extra_block.settings.extra_tile_product,
+                    handles: extra_block.settings.product_handles,
+                    ids: extra_block.settings.product_ids
+                  -%}
+                {%- endcapture -%}
+                {%- assign is_extra_tile_product = is_extra_tile_product | strip -%}
+              {%- endif -%}
+            {%- endfor -%}
 
             {%- for block in section.blocks -%}
               {%- case block.type -%}
@@ -500,12 +514,23 @@
                     show_pickup_availability: true
                   -%}
                 {%- when 'cratemood_personalization' -%}
-                  {%- render 'cratemood-personalization',
-                    block: block,
-                    product: product,
-                    product_form_id: product_form_id,
-                    section: section
-                  -%}
+                  {%- unless is_extra_tile_product == 'true' -%}
+                    {%- render 'cratemood-personalization',
+                      block: block,
+                      product: product,
+                      product_form_id: product_form_id,
+                      section: section
+                    -%}
+                  {%- endunless -%}
+                {%- when 'cratemood_extra_tile' -%}
+                  {%- if is_extra_tile_product == 'true' -%}
+                    {%- render 'cratemood-extra-tile',
+                      block: block,
+                      product: product,
+                      product_form_id: product_form_id,
+                      section: section
+                    -%}
+                  {%- endif -%}
                 {%- when 'rating' -%}
                   {%- if product.metafields.reviews.rating.value != blank -%}
                     <div class="rating-wrapper">
@@ -1059,6 +1084,115 @@
           "label": "Variant titles that enable 4 mood tiles",
           "info": "One per line. Match the variant/package title exactly (e.g. Base + 4 Mood Tiles). Any other variant shows 2 required tiles.",
           "default": "Base + 4 Mood Tiles"
+        }
+      ]
+    },
+    {
+      "type": "cratemood_extra_tile",
+      "name": "CrateMood Extra Tile",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Product match"
+        },
+        {
+          "type": "paragraph",
+          "content": "This configurator is shown only on the Extra Mood Tile product. Match by product picker (ID), numeric IDs, or handles — never by title. Full Size and Mini keep the existing personalization block."
+        },
+        {
+          "type": "product",
+          "id": "extra_tile_product",
+          "label": "Extra Mood Tile product"
+        },
+        {
+          "type": "textarea",
+          "id": "product_handles",
+          "label": "Matching product handles",
+          "info": "One handle per line. Used when the product picker is empty or as a fallback.",
+          "default": "extra-cratemood-mood-tile\ncratemood-extra-mood-tile\nextra-mood-tile"
+        },
+        {
+          "type": "textarea",
+          "id": "product_ids",
+          "label": "Matching product IDs",
+          "info": "Optional. One numeric Shopify product ID per line."
+        },
+        {
+          "type": "header",
+          "content": "Copy"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "CHOOSE YOUR TILE"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "type_label",
+          "label": "Tile type label",
+          "default": "Tile Type"
+        },
+        {
+          "type": "header",
+          "content": "Standard mood"
+        },
+        {
+          "type": "text",
+          "id": "mood_label",
+          "label": "Mood field label",
+          "default": "Choose a mood"
+        },
+        {
+          "type": "text",
+          "id": "mood_placeholder",
+          "label": "Mood placeholder",
+          "default": "Choose a mood…"
+        },
+        {
+          "type": "textarea",
+          "id": "mood_tiles",
+          "label": "Available mood tiles",
+          "info": "One mood per line.",
+          "default": "GOOD BOY\nGOOD GIRL\nNAUGHTY\nALWAYS HUNGRY\nTREAT PLEASE\nLET ME OUT\nPLAY WITH ME\nSLEEPING\nZOOMIES\nTROUBLEMAKER"
+        },
+        {
+          "type": "header",
+          "content": "Custom saying"
+        },
+        {
+          "type": "text",
+          "id": "saying_label",
+          "label": "Custom saying label",
+          "default": "Custom Saying"
+        },
+        {
+          "type": "text",
+          "id": "saying_placeholder",
+          "label": "Custom saying placeholder",
+          "default": "e.g. NAP IN PROGRESS"
+        },
+        {
+          "type": "textarea",
+          "id": "saying_help",
+          "label": "Helper text",
+          "default": "Custom tiles are printed exactly as entered. Please check spelling and capitalization before ordering."
+        },
+        {
+          "type": "range",
+          "id": "saying_max_length",
+          "min": 10,
+          "max": 20,
+          "step": 1,
+          "unit": "ch",
+          "label": "Max saying length",
+          "default": 20
         }
       ]
     },

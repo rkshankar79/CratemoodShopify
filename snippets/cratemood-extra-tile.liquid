@@ -1,0 +1,125 @@
+{% comment %}
+  Extra CrateMood Mood Tile configurator.
+  Isolated from Full Size / Mini personalization.
+
+  Line-item properties submitted with the Dawn product form:
+    - Tile Type = Standard Mood | Custom Saying
+    - Mood = selected standard mood (standard only)
+    - Custom Saying = entered text (custom only)
+
+  Size stays a real Shopify variant. It is never duplicated as a property.
+
+  Accepts:
+  - block, product, product_form_id, section
+{% endcomment %}
+
+{{ 'cratemood-extra-tile.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign moods = block.settings.mood_tiles | newline_to_br | strip_newlines | split: '<br />'
+  assign saying_max = block.settings.saying_max_length | default: 20
+-%}
+
+<div
+  class="cratemood-extra-tile"
+  {{ block.shopify_attributes }}
+  data-cratemood-extra-tile
+  data-form-id="{{ product_form_id }}"
+>
+  {%- if block.settings.heading != blank -%}
+    <h2 class="cratemood-extra-tile__heading h4">{{ block.settings.heading | escape }}</h2>
+  {%- endif -%}
+  {%- if block.settings.subheading != blank -%}
+    <p class="cratemood-extra-tile__subheading">{{ block.settings.subheading | escape }}</p>
+  {%- endif -%}
+
+  <div class="cratemood-extra-tile__field" data-extra-tile-type-field>
+    <span class="cratemood-extra-tile__label">
+      {{ block.settings.type_label | default: 'Tile Type' | escape }}
+      <span class="cratemood-extra-tile__required" aria-hidden="true">*</span>
+    </span>
+    <div class="cratemood-extra-tile__types" role="radiogroup" aria-label="{{ block.settings.type_label | default: 'Tile Type' | escape }}">
+      <label class="cratemood-extra-tile__type">
+        <input
+          type="radio"
+          class="cratemood-extra-tile__type-input visually-hidden"
+          name="properties[Tile Type]"
+          value="Standard Mood"
+          form="{{ product_form_id }}"
+          data-extra-tile-type="standard"
+          checked
+        >
+        <span class="cratemood-extra-tile__type-face">Standard Mood</span>
+      </label>
+      <label class="cratemood-extra-tile__type">
+        <input
+          type="radio"
+          class="cratemood-extra-tile__type-input visually-hidden"
+          name="properties[Tile Type]"
+          value="Custom Saying"
+          form="{{ product_form_id }}"
+          data-extra-tile-type="custom"
+        >
+        <span class="cratemood-extra-tile__type-face">Custom Saying</span>
+      </label>
+    </div>
+    <small class="cratemood-extra-tile__error" data-cratemood-error hidden></small>
+  </div>
+
+  <div class="cratemood-extra-tile__field" data-extra-tile-standard>
+    <label class="cratemood-extra-tile__label" for="CrateMoodExtraMood-{{ section.id }}">
+      {{ block.settings.mood_label | default: 'Choose a mood' | escape }}
+      <span class="cratemood-extra-tile__required" aria-hidden="true">*</span>
+    </label>
+    <div class="cratemood-extra-tile__select-wrap">
+      <select
+        id="CrateMoodExtraMood-{{ section.id }}"
+        class="cratemood-extra-tile__control"
+        name="properties[Mood]"
+        form="{{ product_form_id }}"
+        data-extra-tile-mood
+      >
+        <option value="">{{ block.settings.mood_placeholder | default: 'Choose a mood…' | escape }}</option>
+        {%- for mood in moods -%}
+          {%- assign mood_label = mood | strip -%}
+          {%- if mood_label != blank -%}
+            <option value="{{ mood_label | escape }}">{{ mood_label | escape }}</option>
+          {%- endif -%}
+        {%- endfor -%}
+      </select>
+      <span class="svg-wrapper cratemood-extra-tile__caret">
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </span>
+    </div>
+    <small class="cratemood-extra-tile__error" data-cratemood-error hidden></small>
+  </div>
+
+  <div class="cratemood-extra-tile__field" data-extra-tile-custom hidden>
+    <label class="cratemood-extra-tile__label" for="CrateMoodExtraSaying-{{ section.id }}">
+      {{ block.settings.saying_label | default: 'Custom Saying' | escape }}
+      <span class="cratemood-extra-tile__required" aria-hidden="true">*</span>
+    </label>
+    <input
+      id="CrateMoodExtraSaying-{{ section.id }}"
+      class="cratemood-extra-tile__control"
+      type="text"
+      name="properties[Custom Saying]"
+      form="{{ product_form_id }}"
+      maxlength="{{ saying_max }}"
+      autocomplete="off"
+      spellcheck="true"
+      placeholder="{{ block.settings.saying_placeholder | default: 'e.g. NAP IN PROGRESS' | escape }}"
+      data-extra-tile-saying
+      disabled
+    >
+    <div class="cratemood-extra-tile__meta">
+      <small class="cratemood-extra-tile__hint">
+        {{ block.settings.saying_help | default: 'Custom tiles are printed exactly as entered. Please check spelling and capitalization before ordering.' | escape }}
+      </small>
+      <small class="cratemood-extra-tile__counter" data-extra-tile-counter>0/{{ saying_max }}</small>
+    </div>
+    <small class="cratemood-extra-tile__error" data-cratemood-error hidden></small>
+  </div>
+</div>
+
+<script src="{{ 'cratemood-extra-tile.js' | asset_url }}" defer="defer"></script>

@@ -49,6 +49,24 @@
             "four_tile_variants": "Base + 4 Mood Tiles"
           }
         },
+        "cratemood_extra_tile": {
+          "type": "cratemood_extra_tile",
+          "settings": {
+            "extra_tile_product": "",
+            "product_handles": "extra-cratemood-mood-tile\ncratemood-extra-mood-tile\nextra-mood-tile",
+            "product_ids": "",
+            "heading": "CHOOSE YOUR TILE",
+            "subheading": "",
+            "type_label": "Tile Type",
+            "mood_label": "Choose a mood",
+            "mood_placeholder": "Choose a mood…",
+            "mood_tiles": "GOOD BOY\nGOOD GIRL\nNAUGHTY\nALWAYS HUNGRY\nTREAT PLEASE\nLET ME OUT\nPLAY WITH ME\nSLEEPING\nZOOMIES\nTROUBLEMAKER",
+            "saying_label": "Custom Saying",
+            "saying_placeholder": "e.g. NAP IN PROGRESS",
+            "saying_help": "Custom tiles are printed exactly as entered. Please check spelling and capitalization before ordering.",
+            "saying_max_length": 20
+          }
+        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
@@ -77,6 +95,7 @@
         "price",
         "variant_picker",
         "cratemood_personalization",
+        "cratemood_extra_tile",
         "quantity_selector",
         "buy_buttons",
         "description",

@@ -1,0 +1,44 @@
+{% comment %}
+  Outputs "true" when the current product is the Extra Mood Tile product.
+  Match by assigned product (ID), explicit product IDs, or product handles.
+  Never matches on product title.
+
+  Accepts:
+  - product: {Object} current product
+  - extra_product: {Object} optional product picker setting
+  - handles: {String} newline-separated handles
+  - ids: {String} newline-separated numeric product IDs
+{% endcomment %}
+{%- liquid
+  assign matched = false
+
+  if extra_product != blank and extra_product.id == product.id
+    assign matched = true
+  endif
+
+  unless matched
+    assign handle_list = handles | newline_to_br | strip_newlines | split: '<br />'
+    for entry in handle_list
+      assign handle_clean = entry | strip | downcase
+      if handle_clean != blank and product.handle == handle_clean
+        assign matched = true
+        break
+      endif
+    endfor
+  endunless
+
+  unless matched
+    assign id_list = ids | newline_to_br | strip_newlines | split: '<br />'
+    for entry in id_list
+      assign id_clean = entry | strip
+      if id_clean != blank
+        assign id_number = id_clean | plus: 0
+        if id_number == product.id
+          assign matched = true
+          break
+        endif
+      endif
+    endfor
+  endunless
+-%}
+{%- if matched -%}true{%- endif -%}
