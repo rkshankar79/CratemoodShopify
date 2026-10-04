@@ -90,40 +90,53 @@
   background: #111;
   border: 0.45rem solid var(--mood-sign-accent);
   border-radius: 2.4rem;
-  padding: 3.2rem 2.4rem 2.2rem;
+  padding: 4.4rem 1.6rem 1.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.6rem;
+  gap: 1.2rem;
   box-shadow: 0 1.6rem 4rem rgba(0, 0, 0, 0.28);
 }
 
 .mood-sign__hole {
   position: absolute;
-  top: 1.4rem;
-  width: 1.4rem;
-  height: 1.4rem;
+  z-index: 2;
+  top: 1.2rem;
+  width: 0.95rem;
+  height: 0.95rem;
   border-radius: 50%;
-  background: rgb(var(--color-background));
-  box-shadow: inset 0 0 0 0.18rem #111;
+  pointer-events: none;
+  background-color: rgb(var(--color-background));
+  background-image: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.2) 0 0.14rem, transparent 0.3rem);
+  box-shadow:
+    inset 0 0.16rem 0.2rem rgba(0, 0, 0, 0.82),
+    inset 0 -0.05rem 0.08rem rgba(255, 255, 255, 0.1),
+    0 0 0 0.14rem #0a0a0a;
 }
 
 .mood-sign__hole--left {
-  left: 2.2rem;
+  left: 1.7rem;
 }
 
 .mood-sign__hole--right {
-  right: 2.2rem;
+  right: 1.7rem;
 }
 
 .mood-sign__name {
   color: var(--mood-sign-accent);
-  font-size: clamp(3.2rem, 7vw, 5.6rem);
+  font-size: clamp(5.6rem, 13vw, 10rem);
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  line-height: 0.95;
+  line-height: 0.82;
   text-align: center;
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 9rem;
+  padding: 0.2rem 0.4rem 0;
 }
 
 .mood-sign__tile {
